@@ -17,5 +17,14 @@
     "jsonwebtoken": "^8.5.1",
     "mysql": "^2.18.1",
     "nodemon": "^2.0.20"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EnriqueJassoBenito/SIGEVE_BACKEND.git"
+  },
+  "bugs": {
+    "url": "https://github.com/EnriqueJassoBenito/SIGEVE_BACKEND/issues"
+  },
+  "homepage": "https://github.com/EnriqueJassoBenito/SIGEVE_BACKEND#readme"
 }

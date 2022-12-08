@@ -1,0 +1,193 @@
+drop database if exists cinema;
+create database cinema;
+use cinema;
+
+SHOW TABLES;
+
+drop table clients;
+drop table employees;
+drop table genders;
+drop table movie_shows;
+drop table movies;
+drop table products;
+drop table rooms;
+drop table sales_products;
+drop table sales_tickets;
+
+-- gdr-------------------------------------------------------------------------
+create table genders(
+	id_gdr int primary key,
+    name_gdr varchar(50) not null,
+    status_gdr tinyint not null
+);
+
+select * from genders; -- All
+select * from genders where id_gdr = 1; -- Id
+select * from genders where status_gdr = 1; -- Status
+insert into genders (id_gdr, name_gdr, status_gdr) values(2, "Terror", 1); -- Save
+update genders set name_gdr = "Ciencia Ficcion", status_gdr = 1 where id_gdr = 1; -- Update
+update genders set status_gdr = 0 where id_gdr = 3; -- Inhabilitar
+update genders set status_gdr = 1 where id_gdr = 3; -- Habilitar
+
+-- mve--------------------------------------------------------------------------
+create table movies(
+	id_mve int primary key auto_increment,
+    name_mve varchar(100) not null,
+    duration double not null,
+    gender int not null,
+    availability_mve tinyint not null,
+    image_mve mediumtext NOT NULL,
+    foreign key(gender) references genders(id_gdr)
+);
+
+select movies.id_mve, movies.name_mve, movies.duration, genders.name_gdr, movies.availability_mve, movies.image_mve
+	from movies join genders on movies.gender = genders.id_gdr; -- All
+select movies.id_mve, movies.name_mve, movies.duration, genders.name_gdr, movies.availability_mve, movies.image_mve
+	from movies join genders on movies.gender = genders.id_gdr where id_mve = 1; -- Id
+select movies.id_mve, movies.name_mve, movies.duration, genders.name_gdr, movies.availability_mve, movies.image_mve
+	from movies join genders on movies.gender = genders.id_gdr where availability_mve = 1; -- Status
+insert into movies(name_mve, duration, gender, availability_mve, image_mve) values("Avengers: Infinity War", 149, 1, 1, ""); -- Save
+update movies set name_mve = "Avengers: War", duration = 152, gender = 1, availability_mve = 1, image_mve = "War" where id_mve = 5; -- Update
+update movies set availability_mve = 0 where id_mve = 5; -- Inhabilitar
+update movies set availability_mve = 1 where id_mve = 5; -- Habilitar
+
+-- rom--------------------------------------------------------------------------
+create table rooms(
+	id_room int primary key auto_increment,
+    number_room int not null,
+    capacity int not null,
+    status_room tinyint not null
+);
+
+select * from rooms; -- All
+select * from rooms where id_room = 1; -- Id
+select * from rooms where status_room = 1; -- Status
+insert into rooms(number_room, status_room, capacity) values(4, 1, 51); -- Save
+update rooms set number_room = 4, status_room = 1, capacity = 52 where id_room = 4; -- Update
+update rooms set status_room = 0 where id_room = 1; -- Inhabilitar
+update rooms set status_room = 1 where id_room = 1; -- Habilitar
+
+-- msw---------------------------------------------------------------------------
+create table movie_shows(
+	id_msw int primary key auto_increment,
+	movie int not null,
+    room int not null,
+    start_show time not null,
+    end_show time not null,
+    date_show date not null,
+    availability_msw tinyint not null,
+    foreign key(movie) references movies(id_mve),
+    foreign key(room) references rooms(id_room)
+);
+
+select movie_shows.id_msw, movies.name_mve, rooms.number_room, movie_shows.start_show, movie_shows.end_show, movie_shows.date_show,
+	movie_shows.availability_msw from movie_shows join movies join rooms
+	on movie_shows.movie = movies.id_mve && movie_shows.room = rooms.id_room; -- All
+select movie_shows.id_msw, movies.name_mve, rooms.number_room, movie_shows.start_show, movie_shows.end_show, movie_shows.date_show,
+	movie_shows.availability_msw from movie_shows join movies join rooms
+	on movie_shows.movie = movies.id_mve && movie_shows.room = rooms.id_room where id_msw = 1; -- Id
+select movie_shows.id_msw, movies.name_mve, rooms.number_room, movie_shows.start_show, movie_shows.end_show, movie_shows.date_show,
+	movie_shows.availability_msw from movie_shows join movies join rooms
+	on movie_shows.movie = movies.id_mve && movie_shows.room = rooms.id_room where availability_msw = 1; -- Status
+insert into movie_shows(movie, room, start_show, end_show, date_show, availability_msw) values(1, 1, "05:12:00", "07:11:00", "2022-12-05", 1); -- Save
+update movie_shows set movie = 4, room = 1, start_show = "05:12:00", end_show = "07:11:00", date_show = "2022-12-05", availability_msw = 1
+	where id_msw = 1; -- Update
+update movie_shows set availability_msw = 0 where id_msw = 1; -- Inhabilitar
+update movie_shows set availability_msw = 1 where id_msw = 1; -- Habilitar
+
+-- usr--------------------------------------------------------------------------
+create table users(
+	id_usr int primary key not null auto_increment,
+    name_usr varchar(100) not null,
+    email_usr varchar(256) unique not null,
+    password_usr varchar(100) not null,
+    status_usr tinyint not null,
+    role_usr int not null,
+    saldo_usr double not null
+);
+
+select * from users; -- All
+select email_usr, password_usr from users where status_usr = 1;
+select * from users where id_usr = 1; -- Id
+select * from users where status_usr = 1; -- Status
+insert into users(name_usr, email_usr, password_usr, status_usr, role_usr, saldo_usr) values("Edson", "edson@gmail.com", "123456789", 1, 1, 200.0); -- Save
+update users set name_usr = "David Rosales", email_usr = "david@gmail.com", password_usr = "741852963", status_usr = 1, role_usr = 2, saldo_usr = 200.0 where id_usr = 3; -- Update
+update users set status_usr = 0 where id_usr = 1; -- Inhabilitar
+update users set status_usr = 1 where id_usr = 1; -- Habilitar
+
+-- ste-----------------------------------------------------------------------------
+create table sales_tickets(
+	id_ste int primary key auto_increment,
+    movie_show_ste int not null,
+    client_spo int not null,
+    total_count double not null,
+    status_ste tinyint not null,
+    foreign key(movie_show_ste) references movie_shows(id_msw),
+    foreign key(client_spo) references users(id_usr)
+);
+
+select sales_tickets.id_ste, sales_tickets.movie_show_ste, users.name_usr, sales_tickets.total_count, sales_tickets.status_ste
+	from sales_tickets join movie_shows join users on sales_tickets.movie_show_ste = movie_shows.id_msw
+    && sales_tickets.client_spo = users.id_usr; -- All
+select sales_tickets.id_ste, sales_tickets.movie_show_ste, users.name_usr, sales_tickets.total_count, sales_tickets.status_ste
+	from sales_tickets join movie_shows join users on sales_tickets.movie_show_ste = movie_shows.id_msw
+    && sales_tickets.client_spo = users.id_usr where id_ste = 1; -- Id
+select sales_tickets.id_ste, sales_tickets.movie_show_ste, users.name_usr, sales_tickets.total_count, sales_tickets.status_ste
+	from sales_tickets join movie_shows join users on sales_tickets.movie_show_ste = movie_shows.id_msw
+    && sales_tickets.client_spo = users.id_usr where status_ste = 1; -- Status
+insert into sales_tickets(movie_show_ste, client_spo, total_count, status_ste) values(1, 1, 45.0, 1); -- Save
+update sales_tickets set movie_show_ste = 1, client_spo = 1, total_count = 50.0, status_ste = 1 where id_ste = 1; -- Update
+update sales_tickets set status_ste = 0 where id_ste = 1; -- Inhabilitar
+update sales_tickets set status_ste = 1 where id_ste = 1; -- Habilitar
+
+-- pdo ADIOS-------------------------------------------------------------------------------------------------------------------------------------
+create table products(
+	id_pdo int primary key auto_increment,
+    name_pdo varchar(100) unique,
+    price double
+);
+
+select * from products;
+select * from products where id_pdo = 1;
+insert into products(name_pdo, price) values("Coca Cola", 15);
+update products set name_pdo = "Pepsi", price = 12 where id_pdo = 1;
+delete from products where id_pdo = 1;
+
+-- epe ADIOS--------------------------------------------------------------------------
+create table employees(
+	id_epe int primary key auto_increment,
+    name_epe varchar(100),
+    RFC varchar(13) not null unique,
+    place int,
+    user_epe int unique,
+    password_epe varchar(45)
+);
+
+select * from employees;
+select * from employees where id_epe = 1;
+insert into employees(name_epe, RFC, place, user_epe, password_epe) values("", "", 0, 0, "");
+update employees set name_epe = "", RFC = "", place = 0, user_epe = 0, password_epe = "" where id_epe = 1;
+delete from employees where id_epe = 1;
+
+-- spo ADIOS----------------------------------------------------------------
+create table sales_products(
+	id_spo int primary key auto_increment,
+    employee_spo int not null,
+	client_spo int not null,
+    total_count double not null,
+    sould_products varchar(500) not null,
+    foreign key(employee_spo) references employees(id_epe),
+    foreign key (client_spo) references clients(id_cet)
+);
+
+select * from sales_products;
+select sales_products.*, employees.name_epe, clients.name_cet from sales_products join employees join clients
+	on sales_products.employee_spo = employees.id_epe && sales_products.client_spo = clients.id_cet
+    where id_spo = 1;
+insert into sales_products(employee_spo, client_spo, total_count, sould_products) values(0, 0, 0.0, "");
+update sales_products set employee_spo = 0, client_spo = 0, total_count = 0.0, sould_products = "" where id_spo = 1;
+delete from sales_products where id_spo = 1;
+
+-- --------------------------------------------------------------------------------
+alter user 'edson'@'localhost' identified with mysql_native_password BY 'edson733';
+flush privileges;

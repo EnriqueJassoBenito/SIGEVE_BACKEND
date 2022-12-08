@@ -27,18 +27,19 @@ const findById = async (id) => {
 
 const save = async (movie_shows) => {
     if (!movie_shows.movie || !movie_shows.room || !movie_shows.start_show || !movie_shows.end_show ||
-        !movie_shows.date_show) throw Error('Missing fields');
+        !movie_shows.date_show || !movie_shows.availability_msw) throw Error('Missing fields');
     const sql = `INSERT INTO movie_shows(movie, room, start_show, end_show, date_show, availability_msw) 
-                    VALUES(?, ?, ?, ?, ?, 1);`;
+                    VALUES(?, ?, ?, ?, ?, ?);`;
     const {insertedId} = await query(sql, [movie_shows.movie, movie_shows.room, movie_shows.start_show,
-        movie_shows.end_show, movie_shows.date_show]);
+        movie_shows.end_show, movie_shows.date_show, movie_shows.availability_msw]);
     return {...movie_shows, id: insertedId};
 };
 
 const update = async (movie_shows) => {
     if (!movie_shows.movie || !movie_shows.room || !movie_shows.start_show || !movie_shows.end_show ||
         !movie_shows.date_show || !movie_shows.availability_msw || !movie_shows.id_msw) throw Error('Missing fields');
-    const sql = `UPDATE movie_shows SET movie = ?, room = ?, start_show = ?, end_show = ?, date_show = ? WHERE id_msw = ?;`;
+    const sql = `UPDATE movie_shows SET movie = ?, room = ?, start_show = ?, end_show = ?, date_show = ?, 
+                    availability_msw = ? WHERE id_msw = ?;`;
     return await query(sql, [movie_shows.movie, movie_shows.room, movie_shows.start_show, movie_shows.end_show,
         movie_shows.date_show, movie_shows.availability_msw, movie_shows.id_msw]);
 };

@@ -2,15 +2,14 @@
 GET http://localhost:3000/api/users/all HTTP/1.1
 
 ###
-POST http://localhost:3000/api/users/all HTTP/1.1
+POST http://localhost:3000/api/users/register HTTP/1.1
 Content-Type: application/json
 
 {
-    "id_usr": 1,
-    "name_usr": "Edson",
-    "email_usr": "edson@gmail.com",
-    "password_usr": "123456789",
-    "status_usr": 1,
-    "role_usr": 1,
-    "saldo_usr": 200
+    "name_usr": "David",
+    "email_usr": "Dav1id@gmai.com",
+    "password_usr": "123456789"
 }
+
+###
+PUT http://localhost:3000/api/users/all HTTP/1.1

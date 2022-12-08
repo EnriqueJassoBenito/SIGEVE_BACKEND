@@ -50,6 +50,12 @@ const enable = async (id) => {
     return await query(sql, [id]);
 };
 
+const emailexist=async(email)=>{
+    if(!email) throw Error('Missing fields');
+    const sql="SELECT * FROM users WHERE email_usr=?;"
+    return await query(sql,[email]);
+}
+
 module.exports = {
-    findAll, findEnable, findById, save, update, disable, enable,
+    emailexist, findAll, findEnable, findById, save,saveus, update, disable, enable,
 };

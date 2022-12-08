@@ -18,16 +18,16 @@ const findById = async (id) => {
 };
 
 const save = async (gender) => {
-    if (!gender.name_gdr) throw Error('Missing fields');
-    const sql = `INSERT INTO genders (name_gdr, status_gdr) VALUES(?, 1);`;
-    const {insertedId} = await query(sql, [gender.name_gdr]);
+    if (!gender.id_gdr || !gender.name_gdr || !gender.status_gdr) throw Error('Missing fields');
+    const sql = `INSERT INTO genders (id_gdr, name_gdr, status_gdr) VALUES(?, ?, ?);`;
+    const {insertedId} = await query(sql, [gender.id_gdr, gender.name_gdr, gender.status_gdr]);
     return {...gender, id: insertedId};
 };
 
 const update = async (gender) => {
-    if (!gender.name_gdr || !gender.id_gdr) throw Error('Missing fields');
-    const sql = `UPDATE genders SET name_gdr = ? WHERE id_gdr = ?;`;
-    return await query(sql, [gender.name_gdr, gender.id_gdr]);
+    if (!gender.name_gdr || !gender.status_gdr || !gender.id_gdr) throw Error('Missing fields');
+    const sql = `UPDATE genders SET name_gdr = ?, status_gdr = ? WHERE id_gdr = ?;`;
+    return await query(sql, [gender.name_gdr, gender.status_gdr, gender.id_gdr]);
 };
 
 const disable = async (id) => {

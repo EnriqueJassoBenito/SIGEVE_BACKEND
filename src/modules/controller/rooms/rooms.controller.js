@@ -38,8 +38,8 @@ const getById = async (req, res = Response) => {
 
 const insert = async (req, res = Response) => {
     try{
-        const {number_room, status_room, capacity} = req.body;
-        const results = await save({number_room, status_room, capacity});
+        const {number_room, capacity} = req.body;
+        const results = await save({number_room, capacity});
         res.status(200).json({results});
     }catch (err) {
         console.log(err);
@@ -50,8 +50,8 @@ const insert = async (req, res = Response) => {
 
 const modific = async (req, res = Response) => {
     try{
-        const {number_room, status_room, capacity, id_room} = req.body;
-        const results = await update({number_room, status_room, capacity, id_room});
+        const {number_room, capacity, id_room} = req.body;
+        const results = await update({number_room, capacity, id_room});
         res.status(200).json({results});
     }catch (err) {
         console.log(err);

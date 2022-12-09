@@ -21,16 +21,16 @@ const findById = async (id) => {
 };
 
 const save = async (movie) => {
-    if (!movie.name_mve || !movie.duration || !movie.gender || !movie.availability_mve || !movie.image_mve) throw Error('Missing fields');
-    const sql = `INSERT INTO movies(name_mve, duration, gender, availability_mve, image_mve) VALUES(?, ?, ?, ?, ?);`;
-    const {insertedId} = await query(sql, [movie.name_mve, movie.duration, movie.gender, movie.availability_mve, movie.image_mve]);
+    if (!movie.name_mve || !movie.duration || !movie.gender || !movie.image_mve) throw Error('Missing fields');
+    const sql = `INSERT INTO movies(name_mve, duration, gender, availability_mve, image_mve) VALUES(?, ?, ?, 1, ?);`;
+    const {insertedId} = await query(sql, [movie.name_mve, movie.duration, movie.gender, movie.image_mve]);
     return {...movie, id: insertedId};
 };
 
 const update = async (movie) => {
-    if (!movie.name_mve || !movie.duration || !movie.gender || !movie.availability_mve || !movie.image_mve || !movie.id_mve) throw Error('Missing fields');
-    const sql = `UPDATE movies SET name_mve = ?, duration = ?, gender = ?, availability_mve = ?, image_mve = ? WHERE id_mve = ?;`;
-    return await query(sql, [movie.name_mve, movie.duration, movie.gender, movie.availability_mve, movie.image_mve, movie.id_mve]);
+    if (!movie.name_mve || !movie.duration || !movie.gender || !movie.image_mve || !movie.id_mve) throw Error('Missing fields');
+    const sql = `UPDATE movies SET name_mve = ?, duration = ?, gender = ?, availability_mve = 1, image_mve = ? WHERE id_mve = ?;`;
+    return await query(sql, [movie.name_mve, movie.duration, movie.gender, movie.image_mve, movie.id_mve]);
 };
 
 const disable = async (id) => {

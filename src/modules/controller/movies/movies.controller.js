@@ -38,8 +38,8 @@ const getById = async (req, res = Response) => {
 
 const insert = async (req, res = Response) => {
     try{
-        const {name_mve, duration, gender, availability_mve, image_mve} = req.body;
-        const results = await save({name_mve, duration, gender, availability_mve, image_mve});
+        const {name_mve, duration, gender, image_mve} = req.body;
+        const results = await save({name_mve, duration, gender, image_mve});
         res.status(200).json({results});
     }catch (err) {
         console.log(err);
@@ -50,8 +50,8 @@ const insert = async (req, res = Response) => {
 
 const modific = async (req, res = Response) => {
     try{
-        const {name_mve, duration, gender, availability_mve, image_mve, id_mve} = req.body;
-        const results = await update({name_mve, duration, gender, availability_mve, image_mve, id_mve});
+        const {name_mve, duration, gender, image_mve, id_mve} = req.body;
+        const results = await update({name_mve, duration, gender, image_mve, id_mve});
         res.status(200).json({results});
     }catch (err) {
         console.log(err);

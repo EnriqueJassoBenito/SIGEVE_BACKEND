@@ -1,5 +1,5 @@
 const {Response, Router} = require("express");
-const {emailexist,findAll, findEnable, findById, save,saveus, update, disable, enable} = require("./users.gateway");
+const {emailexist, findAll, findEnable, findById, save, saveus, update, disable, enable} = require("./users.gateway");
 const {validateError} = require("../../../utils/functions");
 const getAll = async (req, res = Response) => {
     try{
@@ -37,8 +37,8 @@ const getById = async (req, res = Response) => {
 
 const insert = async (req, res = Response) => {
     try{
-        const {name_usr, email_usr, password_usr, status_usr, role_usr, saldo_usr} = req.body;
-        const results = await save({name_usr, email_usr, password_usr, status_usr, role_usr, saldo_usr});
+        const {name_usr, email_usr, password_usr, role_usr, saldo_usr} = req.body;
+        const results = await save({name_usr, email_usr, password_usr, role_usr, saldo_usr});
         res.status(200).json({results});
     }catch (err) {
         console.log(err);
@@ -48,11 +48,11 @@ const insert = async (req, res = Response) => {
 };
 const register = async (req, res = Response) => {
     try{
-        const emailexis=await emailexist(req.body.email_usr);
+        const emailexis = await emailexist(req.body.email_usr);
         console.log(emailexis);
         if( /^[a-zA-Z]+$/.test(req.body.name_usr)==false) throw Error("El nombre no es valido");
-        if(/^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i.test(req.body.email_usr)==false) throw Error("El correo no es valido");
-        if(emailexis[0]!=null) throw Error("El correo ya existe");
+        if(/^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i.test(req.body.email_usr) == false) throw Error("El correo no es valido");
+        if(emailexis[0] != null) throw Error("El correo ya existe");
         const {name_usr, email_usr, password_usr} = req.body;
         const results = await saveus({name_usr, email_usr, password_usr});
         res.status(200).json({results});
@@ -66,8 +66,8 @@ const register = async (req, res = Response) => {
 
 const modific = async (req, res = Response) => {
     try{
-        const {name_usr, email_usr, password_usr, status_usr, role_usr, saldo_usr, id_usr} = req.body;
-        const results = await update({name_usr, email_usr, password_usr, status_usr, role_usr, saldo_usr, id_usr});
+        const {name_usr, email_usr, password_usr, role_usr, saldo_usr, id_usr} = req.body;
+        const results = await update({name_usr, email_usr, password_usr, role_usr, saldo_usr, id_usr});
         res.status(200).json({results});
     }catch (err) {
         console.log(err);

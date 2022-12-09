@@ -18,16 +18,16 @@ const findById = async (id) => {
 };
 
 const save = async (rooms) => {
-    if (!rooms.number_room || !rooms.status_room || !rooms.capacity) throw Error('Missing fields');
-    const sql = `INSERT INTO rooms(number_room, status_room, capacity) VALUES(?, ?, ?);`;
-    const {insertedId} = await query(sql, [rooms.number_room, rooms.status_room, rooms.capacity]);
+    if (!rooms.number_room || !rooms.capacity) throw Error('Missing fields');
+    const sql = `INSERT INTO rooms(number_room, status_room, capacity) VALUES(?, 1, ?);`;
+    const {insertedId} = await query(sql, [rooms.number_room, rooms.capacity]);
     return {...rooms, id: insertedId};
 };
 
 const update = async (rooms) => {
-    if (!rooms.number_room || !rooms.status_room || !rooms.capacity || !rooms.id_room) throw Error('Missing fields');
-    const sql = `UPDATE rooms SET number_room = ?, status_room = ?, capacity = ? WHERE id_room = ?;`;
-    return await query(sql, [rooms.number_room, rooms.status_room, rooms.capacity, rooms.id_room]);
+    if (!rooms.number_room || !rooms.capacity || !rooms.id_room) throw Error('Missing fields');
+    const sql = `UPDATE rooms SET number_room = ?, status_room = 1, capacity = ? WHERE id_room = ?;`;
+    return await query(sql, [rooms.number_room, rooms.capacity, rooms.id_room]);
 };
 
 const disable = async (id) => {

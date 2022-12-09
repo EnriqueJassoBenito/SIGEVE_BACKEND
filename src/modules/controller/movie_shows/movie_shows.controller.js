@@ -38,8 +38,8 @@ const getById = async (req, res = Response) => {
 
 const insert = async (req, res = Response) => {
     try{
-        const {movie, room, start_show, end_show, date_show, availability_msw} = req.body;
-        const results = await save({movie, room, start_show, end_show, date_show, availability_msw});
+        const {movie, room, start_show, end_show, date_show} = req.body;
+        const results = await save({movie, room, start_show, end_show, date_show});
         res.status(200).json({results});
     }catch (err) {
         console.log(err);
@@ -50,8 +50,8 @@ const insert = async (req, res = Response) => {
 
 const modific = async (req, res = Response) => {
     try{
-        const {movie, room, start_show, end_show, date_show, availability_msw, id_msw} = req.body;
-        const results = await update({movie, room, start_show, end_show, date_show, availability_msw, id_msw});
+        const {movie, room, start_show, end_show, date_show, id_msw} = req.body;
+        const results = await update({movie, room, start_show, end_show, date_show, id_msw});
         res.status(200).json({results});
     }catch (err) {
         console.log(err);

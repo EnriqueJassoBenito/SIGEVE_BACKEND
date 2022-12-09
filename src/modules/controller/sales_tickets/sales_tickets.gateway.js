@@ -27,16 +27,16 @@ const findById = async (id) => {
 };
 
 const save = async (sales_tickets) => {
-    if (!sales_tickets.movie_show_ste || !sales_tickets.client_spo || !sales_tickets.total_count || !sales_tickets.status_ste) throw Error('Missing fields');
-    const sql = `INSERT INTO sales_tickets(movie_show_ste, client_spo, total_count, status_ste) VALUES(?, ?, ?, ?);`;
-    const {insertedId} = await query(sql, [sales_tickets.movie_show_ste, sales_tickets.client_spo, sales_tickets.total_count, sales_tickets.status_ste]);
+    if (!sales_tickets.movie_show_ste || !sales_tickets.client_spo || !sales_tickets.total_count) throw Error('Missing fields');
+    const sql = `INSERT INTO sales_tickets(movie_show_ste, client_spo, total_count, status_ste) VALUES(?, ?, ?, 1);`;
+    const {insertedId} = await query(sql, [sales_tickets.movie_show_ste, sales_tickets.client_spo, sales_tickets.total_count]);
     return {...sales_tickets, id: insertedId};
 };
 
 const update = async (sales_tickets) => {
-    if (!sales_tickets.movie_show_ste || !sales_tickets.client_spo || !sales_tickets.total_count || !sales_tickets.status_ste || !sales_tickets.id_ste) throw Error('Missing fields');
-    const sql = `UPDATE sales_tickets SET movie_show_ste = ?, client_spo = ?, total_count = ?, status_ste = ? WHERE id_ste = ?;`;
-    return await query(sql, [sales_tickets.movie_show_ste, sales_tickets.client_spo, sales_tickets.total_count, sales_tickets.status_ste, sales_tickets.id_ste]);
+    if (!sales_tickets.movie_show_ste || !sales_tickets.client_spo || !sales_tickets.total_count || !sales_tickets.id_ste) throw Error('Missing fields');
+    const sql = `UPDATE sales_tickets SET movie_show_ste = ?, client_spo = ?, total_count = ?, status_ste = 1 WHERE id_ste = ?;`;
+    return await query(sql, [sales_tickets.movie_show_ste, sales_tickets.client_spo, sales_tickets.total_count, sales_tickets.id_ste]);
 };
 
 const disable = async (id) => {

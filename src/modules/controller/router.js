@@ -6,7 +6,6 @@ const {userRouter} = require("./users/users.controller");
 const {salesTicketsRouter} = require("./sales_tickets/sales_tickets.controller");
 const {authRouter} = require("./auth/auth.controller");
 
-
 module.exports = {
   genderRouter, movieRouter, roomRouter, movieShowsRouter, userRouter, salesTicketsRouter, authRouter,
 };

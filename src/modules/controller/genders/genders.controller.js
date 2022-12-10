@@ -1,5 +1,5 @@
 const {Response, Router} = require("express");
-const {findAll, findEnable, findById, save, update, disable, enable} = require("./genders.gateway");
+const {findAll, findEnable, findById, save, update, disable, enable,getNames} = require("./genders.gateway");
 const {validateError} = require("../../../utils/functions");
 
 const getAll = async (req, res = Response) => {
@@ -39,6 +39,8 @@ const getById = async (req, res = Response) => {
 const insert = async (req, res = Response) => {
     try{
         const {name_gdr} = req.body;
+        const existbefore=await getNames(name_gdr);
+        if(existbefore[0]!=null) throw Error('Gender already exist')
         const results = await save({name_gdr});
         res.status(200).json({results});
     }catch (err) {

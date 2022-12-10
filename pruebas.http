@@ -10,6 +10,26 @@ Content-Type: application/json
     "email_usr": "Dav1id@gmai.com",
     "password_usr": "123456789"
 }
+###
+POST http://localhost:3000/api/genders/save HTTP/1.1
+Content-Type: application/json
+
+{
+  "name_gdr": "drama"
+}
+###
+POST http://localhost:3000/api/movies/save HTTP/1.1
+Content-Type: application/json
+
+{
+  "name_mve": "toy story 2",
+  "duration": 120,
+  "gender": 2,
+  "image_mve": "Toy Story"
+}
+###
+GET http://localhost:3000/api/movies/all HTTP/1.1
+
 
 ###
 PUT http://localhost:3000/api/users/all HTTP/1.1

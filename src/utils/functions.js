@@ -16,6 +16,16 @@ const validateError = (error) => {
             return "User disabled";
         case "User not found":
             return "Unkown or disabled user"
+        case "Gender already exist":
+            return "Gender already exist";
+        case "Movie already exist":
+            return error.message;
+        case "Invalid name":
+            return error.message;
+        case "Invalid email":
+            return error.message;
+        case "Email already in use":
+            return error.message;
         default:
             return "Review request";
     }

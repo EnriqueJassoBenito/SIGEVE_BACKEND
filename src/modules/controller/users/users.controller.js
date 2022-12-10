@@ -50,9 +50,9 @@ const register = async (req, res = Response) => {
     try{
         const emailexis = await emailexist(req.body.email_usr);
         console.log(emailexis);
-        if( /^[a-zA-Z]+$/.test(req.body.name_usr)==false) throw Error("El nombre no es valido");
-        if(/^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i.test(req.body.email_usr) == false) throw Error("El correo no es valido");
-        if(emailexis[0] != null) throw Error("El correo ya existe");
+        if( /^[a-zA-Z]+$/.test(req.body.name_usr)==false) throw Error("Invalid name");
+        if(/^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i.test(req.body.email_usr) == false) throw Error("Invalid email");
+        if(emailexis[0] != null) throw Error("Email already in use");
         const {name_usr, email_usr, password_usr} = req.body;
         const results = await saveus({name_usr, email_usr, password_usr});
         res.status(200).json({results});

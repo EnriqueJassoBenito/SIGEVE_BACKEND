@@ -1,5 +1,5 @@
 const {Response, Router} = require("express");
-const {findAll, findEnable, findById, save, update, disable, enable} = require("./movies.gateway");
+const {findAll, findEnable, findById, save, update, disable, enable,getNames} = require("./movies.gateway");
 const {validateError} = require("../../../utils/functions");
 
 const getAll = async (req, res = Response) => {
@@ -39,6 +39,8 @@ const getById = async (req, res = Response) => {
 const insert = async (req, res = Response) => {
     try{
         const {name_mve, duration, gender, image_mve} = req.body;
+        const movieExist=await getNames(name_mve);
+        if(movieExist[0]!=null)throw Error('Movie already exist');
         const results = await save({name_mve, duration, gender, image_mve});
         res.status(200).json({results});
     }catch (err) {

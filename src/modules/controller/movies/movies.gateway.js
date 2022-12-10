@@ -5,6 +5,10 @@ const findAll = async () => {
                         FROM movies JOIN genders ON movies.gender = genders.id_gdr;`;
     return await query(sql, []);
 };
+const getNames = async (name) => {
+    const sql = "SELECT * FROM cinema.movies where name_mve like ? ;";
+    return await query(sql, [name]);
+};
 
 const findEnable = async () => {
     const sql = `SELECT movies.id_mve, movies.name_mve, movies.duration, genders.name_gdr, movies.availability_mve, movies.image_mve 
@@ -48,5 +52,5 @@ const enable = async (id) => {
 };
 
 module.exports = {
-  findAll, findEnable, findById, save, update, disable, enable,
+  findAll, findEnable, findById, save, update, disable, enable,getNames
 };

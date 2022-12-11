@@ -1,10 +1,13 @@
 const jwt = require('jsonwebtoken');
+const jwt_decode = require('jwt-decode');
 require('dotenv').config;
 
 const generateToken = (payload) => {
     return jwt.sign(payload, process.env.SECRET);
 };
-
+const decodeToken=(token)=>{
+    return jwt_decode(token);
+}
 // const auth = async (req, res, next)=>{
 //     try{
 //         const token = req.headers.authorization?.replace('Bearer ','');
@@ -27,5 +30,5 @@ const generateToken = (payload) => {
 // }
 
 module.exports = {
-    generateToken,
+    generateToken,decodeToken
 };

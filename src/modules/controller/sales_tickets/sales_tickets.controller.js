@@ -38,8 +38,8 @@ const getById = async (req, res = Response) => {
 
 const insert = async (req, res = Response) => {
     try{
-        const {movie_show_ste, client_spo, total_count} = req.body;
-        const results = await save({movie_show_ste, client_spo, total_count});
+        const {movie_show_ste, token, total_count} = req.body;
+        const results = await save({movie_show_ste, token, total_count});
         res.status(200).json({results});
     }catch (err) {
         console.log(err);

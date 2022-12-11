@@ -40,6 +40,7 @@ const insert = async (req, res = Response) => {
     try{
         const {name_gdr} = req.body;
         const existbefore=await getNames(name_gdr);
+        if( /^[a-zA-Z]+$/.test(name_gdr)==false) throw Error("Invalid name");
         if(existbefore[0]!=null) throw Error('Gender already exist')
         const results = await save({name_gdr});
         res.status(200).json({results});

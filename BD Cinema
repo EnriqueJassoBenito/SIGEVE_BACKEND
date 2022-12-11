@@ -121,7 +121,7 @@ create table sales_tickets(
     movie_show_ste int not null,
     client_spo int not null,
     total_count double not null,
-    status_ste tinyint not null,
+    status_ste tinyint not null DEFAULT 0,
     foreign key(movie_show_ste) references movie_shows(id_msw),
     foreign key(client_spo) references users(id_usr)
 );

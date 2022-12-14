@@ -47,14 +47,15 @@ const insert = async (req, res = Response) => {
     }
 };
 const register = async (req, res = Response) => {
+    console.log(req.body);
     try{
-        const emailexis = await emailexist(req.body.email_usr);
+        const emailexis = await emailexist(req.body.email);
         console.log(emailexis);
-        if( /^[a-zA-Z]+$/.test(req.body.name_usr)==false) throw Error("Invalid name");
-        if(/^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i.test(req.body.email_usr) == false) throw Error("Invalid email");
+        if( /^[a-zA-Z]+$/.test(req.body.name)==false) throw Error("Invalid name");
+        if(/^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i.test(req.body.email) == false) throw Error("Invalid email");
         if(emailexis[0] != null) throw Error("Email already in use");
-        const {name_usr, email_usr, password_usr} = req.body;
-        const results = await saveus({name_usr, email_usr, password_usr});
+        const {name, email, password} = req.body;
+        const results = await saveus({name, email, password});
         res.status(200).json({results});
     }catch (err) {
         console.log(err);

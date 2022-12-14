@@ -39,6 +39,7 @@ const getById = async (req, res = Response) => {
 const insert = async (req, res = Response) => {
     try{
         const {name_mve, duration, gender, image_mve} = req.body;
+        console.log(req.body)
         const movieExist=await getNames(name_mve);
         if(movieExist[0]!=null)throw Error('Movie already exist');
         const results = await save({name_mve, duration, gender, image_mve});

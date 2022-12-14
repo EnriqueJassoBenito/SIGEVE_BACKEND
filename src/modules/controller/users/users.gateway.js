@@ -24,9 +24,9 @@ const save = async (users) => {
     return {...users, id: insertedId};
 };
 const saveus = async (users) => {
-    if (!users.name_usr || !users.email_usr || !users.password_usr) throw Error('Missing fields');
+    if (!users.name || !users.email || !users.password) throw Error('Faltan campos');
     const sql = `INSERT INTO users(name_usr, email_usr, password_usr, status_usr, role_usr, saldo_usr) VALUES(?, ?, ?, 1, 1, 0);`;
-    const {insertedId} = await query(sql, [users.name_usr, users.email_usr, users.password_usr]);
+    const {insertedId} = await query(sql, [users.name, users.email, users.password]);
     return {...users, id: insertedId};
 };
 

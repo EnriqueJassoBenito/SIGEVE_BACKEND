@@ -1,6 +1,7 @@
 const {Response, Router} = require("express");
 const {emailexist, findAll, findEnable, findById, save, saveus, update, disable, enable} = require("./users.gateway");
 const {validateError} = require("../../../utils/functions");
+const { transporter, template } = require('../../../utils/email-service');
 const getAll = async (req, res = Response) => {
     try{
         const results = await findAll();
@@ -47,7 +48,6 @@ const insert = async (req, res = Response) => {
     }
 };
 const register = async (req, res = Response) => {
-    console.log(req.body);
     try{
         const emailexis = await emailexist(req.body.email);
         console.log(emailexis);
@@ -56,6 +56,13 @@ const register = async (req, res = Response) => {
         if(emailexis[0] != null) throw Error("Email already in use");
         const {name, email, password} = req.body;
         const results = await saveus({name, email, password});
+        // const info = await transporter.sendMail({
+        //     from: `Pochopolis <${ process.env.EMAIL_USER }>`,
+        //     to: email,
+        //     subject: 'Se registro correctamente',
+        //     html: template(name, 'Se registro correctamente', email)
+        // });
+        // console.log(info);
         res.status(200).json({results});
     }catch (err) {
         console.log(err);

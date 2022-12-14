@@ -56,13 +56,13 @@ const register = async (req, res = Response) => {
         if(emailexis[0] != null) throw Error("Email already in use");
         const {name, email, password} = req.body;
         const results = await saveus({name, email, password});
-        // const info = await transporter.sendMail({
-        //     from: `Pochopolis <${ process.env.EMAIL_USER }>`,
-        //     to: email,
-        //     subject: 'Se registro correctamente',
-        //     html: template(name, 'Se registro correctamente', email)
-        // });
-        // console.log(info);
+        const info = await transporter.sendMail({
+            from: `Pochopolis <${ process.env.EMAIL_USER }>`,
+            to: email,
+            subject: 'Se registro correctamente',
+            html: template(name, 'Se registro correctamente', email)
+        });
+        console.log(info);
         res.status(200).json({results});
     }catch (err) {
         console.log(err);

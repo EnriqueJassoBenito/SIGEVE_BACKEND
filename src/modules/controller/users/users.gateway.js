@@ -1,4 +1,5 @@
 const {query} = require("../../../utils/mysql");
+const {decodeToken} = require("../../../config/jwt");
 
 const findAll = async () => {
     const sql = `SELECT * FROM users;`;
@@ -25,7 +26,7 @@ const save = async (users) => {
 };
 const saveus = async (users) => {
     if (!users.name || !users.email || !users.password) throw Error('Faltan campos');
-    const sql = `INSERT INTO users(name_usr, email_usr, password_usr, status_usr, role_usr, saldo_usr) VALUES(?, ?, ?, 1, 1, 0);`;
+    const sql = `INSERT INTO users(name_usr, email_usr, password_usr, status_usr, role_usr, saldo_usr) VALUES(?, ?, ?, 0, 1, 0);`;
     const {insertedId} = await query(sql, [users.name, users.email, users.password]);
     return {...users, id: insertedId};
 };
@@ -43,11 +44,12 @@ const disable = async (id) => {
     return await query(sql, [id]);
 };
 
-const enable = async (id) => {
-    if (Number.isNaN(id)) throw Error('Wrong type');
-    if (!id) throw Error('Missing fields');
-    const sql = `UPDATE users SET status_usr = 1 WHERE id_usr = ?;`;
-    return await query(sql, [id]);
+const enable = async (token) => {
+    if (!token) throw Error('Missing fields');
+    const decodedToken= await decodeToken(token);
+    const sql = `UPDATE users SET status_usr = 1 WHERE email_usr = ?;`;
+    console.log(decodedToken)
+    return await query(sql, [decodedToken.email]);
 };
 
 const emailexist=async(email)=>{

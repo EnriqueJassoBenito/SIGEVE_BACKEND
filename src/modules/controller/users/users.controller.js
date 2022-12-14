@@ -2,6 +2,7 @@ const {Response, Router} = require("express");
 const {emailexist, findAll, findEnable, findById, save, saveus, update, disable, enable} = require("./users.gateway");
 const {validateError} = require("../../../utils/functions");
 const { transporter, template } = require('../../../utils/email-service');
+const { generateToken } = require('../../../config/jwt');
 const getAll = async (req, res = Response) => {
     try{
         const results = await findAll();
@@ -56,11 +57,19 @@ const register = async (req, res = Response) => {
         if(emailexis[0] != null) throw Error("Email already in use");
         const {name, email, password} = req.body;
         const results = await saveus({name, email, password});
+        const emailtoken={
+            token: generateToken({
+                email: email,
+            }),
+        };
+        console.log(emailtoken);
         const info = await transporter.sendMail({
             from: `Pochopolis <${ process.env.EMAIL_USER }>`,
             to: email,
-            subject: 'Se registro correctamente',
-            html: template(name, 'Se registro correctamente', email)
+            subject: 'Se Requiere confirmacion',
+            html: template(name, 'Si desea confirmar su registro \n' +
+                'haga click en el siguiente enlace \n ' +
+                'http://localhost:3000/api/users/enable/'+emailtoken.token, email)
         });
         console.log(info);
         res.status(200).json({results});
@@ -98,8 +107,8 @@ const disa = async (req, res = Response) => {
 
 const ena = async (req, res = Response) => {
     try{
-        const {id} = req.params;
-        const results = await enable(id);
+        const {token} = req.params;
+        const results = await enable(token);
         res.status(200).json(results);
     }catch (err) {
         console.log(err);
@@ -116,7 +125,7 @@ userRouter.post(`/save`, [], insert);
 userRouter.post(`/register`, [], register);
 userRouter.put(`/update`, [], modific);
 userRouter.put(`/disable/:id`, [], disa);
-userRouter.put(`/enable/:id`, [], ena);
+userRouter.get(`/enable/:token`, [], ena);
 
 module.exports = {
     userRouter,

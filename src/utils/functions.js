@@ -14,8 +14,8 @@ const validateError = (error) => {
             return "Credentials mismatch";
         case "User disabled":
             return "User disabled";
-        case "User not found":
-            return "Unkown or disabled user"
+        case "User not found or not enable":
+            return "User not found or not enable"
         case "Gender already exist":
             return "Gender already exist";
         case "Movie already exist":

@@ -8,8 +8,13 @@ const findAll = async () => {
 };
 
 const findEnable = async () => {
-    const sql = `SELECT movie_shows.id_msw, movies.name_mve, rooms.number_room, movie_shows.start_show, 
+    /*const sql = `SELECT movie_shows.id_msw, movies.name_mve, rooms.number_room, movie_shows.start_show,
                     movie_shows.end_show, movie_shows.date_show, movie_shows.availability_msw FROM movie_shows 
+                    JOIN movies JOIN rooms ON movie_shows.movie = movies.id_mve && movie_shows.room = rooms.id_room 
+                    WHERE availability_msw = 1;`;*/
+    //cambio en el select
+    const sql = `SELECT movie_shows.id_msw, movies.image_mve,movies.name_mve, rooms.number_room, movie_shows.date_show, 
+                    movie_shows.availability_msw, movie_shows.start_show FROM movie_shows 
                     JOIN movies JOIN rooms ON movie_shows.movie = movies.id_mve && movie_shows.room = rooms.id_room 
                     WHERE availability_msw = 1;`;
     return await query(sql, []);

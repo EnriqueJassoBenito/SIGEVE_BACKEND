@@ -69,7 +69,7 @@ const register = async (req, res = Response) => {
             subject: 'Se Requiere confirmacion',
             html: template(name, 'Si desea confirmar su registro \n' +
                 'haga click en el siguiente enlace \n ' +
-                'http://localhost:3000/api/users/enable/'+emailtoken.token, email)
+                'http://localhost:4200/api/users/enable/'+emailtoken.token, email)
         });
         console.log(info);
         res.status(200).json({results});

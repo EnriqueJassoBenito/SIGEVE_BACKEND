@@ -8,15 +8,6 @@ const findAll = async () => {
                     && sales_tickets.client_spo = users.id_usr;`;
     return await query(sql, []);
 };
-const getSalesById = async (token) => {
-    const decodedToken= await decodeToken(token);
-    console.log(decodedToken)
-    const sql = `SELECT sales_tickets.id_ste, sales_tickets.movie_show_ste, users.name_usr, 
-                    sales_tickets.total_count, sales_tickets.status_ste FROM sales_tickets 
-                    JOIN movie_shows JOIN users ON sales_tickets.movie_show_ste = movie_shows.id_msw 
-                    && sales_tickets.client_spo = users.id_usr where users.id_usr=?;`;
-    return await query(sql, [decodedToken.id]);
-};
 
 const findEnable = async () => {
     const sql = `SELECT sales_tickets.id_ste, sales_tickets.movie_show_ste, users.name_usr, 
@@ -32,7 +23,7 @@ const findById = async (id) => {
     const sql = `SELECT sales_tickets.id_ste, sales_tickets.movie_show_ste, users.name_usr, 
                     sales_tickets.total_count, sales_tickets.status_ste FROM sales_tickets 
                     JOIN movie_shows JOIN users ON sales_tickets.movie_show_ste = movie_shows.id_msw 
-                    && sales_tickets.client_spo = users.id_usr WHERE id_ste = ?;`;
+                    && sales_tickets.client_spo = users.id_usr WHERE client_spo = ?;`;
     return await query(sql, [id]);
 };
 
@@ -66,5 +57,5 @@ const enable = async (id) => {
 };
 
 module.exports = {
-    findAll, findEnable, findById, save, update, disable, enable,getSalesById
+    findAll, findEnable, findById, save, update, disable, enable,
 };

@@ -6,7 +6,7 @@ const login = async (email, password) => {
     if (!email || !password) throw Error('User fields');
     const sql = `SELECT * FROM users WHERE email_usr = ? && password_usr = ? && status_usr = 1;`;
     const existsUser = await query(sql, [email, password]);
-    if (existsUser.length === 0) throw Error('User not found');
+    if (existsUser.length === 0) throw Error('User not found or not enable');
     if (await !existsUser[0].password) {
         return {
             token: generateToken({

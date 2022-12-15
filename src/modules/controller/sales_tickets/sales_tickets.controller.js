@@ -37,6 +37,7 @@ const getById = async (req, res = Response) => {
 };
 
 const insert = async (req, res = Response) => {
+    console.log(req.body);
     try{
         const {movie_show_ste, token, total_count} = req.body;
         const results = await save({movie_show_ste, token, total_count});

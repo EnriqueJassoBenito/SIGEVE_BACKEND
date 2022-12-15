@@ -51,3 +51,12 @@ Content-Type: application/json
 {
   "email_usr": "jdrj40@gmail.com"
 }
+###
+PUT http://localhost:3000/api/users/newpasswd HTTP/1.1
+Content-Type: application/json
+
+{
+  "token": "'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJEYXYxaWRAZ21haS5jb20iLCJwYXNzd29yZCI6IjEyMzQ1Njc4OSIsInJvbGUiOjEsImlhdCI6MTY3MTA4MzQ3Nn0.3ZKTTBcqkyDq-iSy5EwElkh8MZFY8MkafH4nba02d_A",
+  "password": "davidwapo",
+  "confirmation": "davidfeo"
+}

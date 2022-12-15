@@ -2,7 +2,7 @@ const {Response, Router} = require("express");
 const {emailexist, findAll, findEnable, findById, save, saveus, update, disable, enable,setTempPasswd,makePasswd} = require("./users.gateway");
 const {validateError} = require("../../../utils/functions");
 const { transporter, template } = require('../../../utils/email-service');
-const { generateToken } = require('../../../config/jwt');
+const { generateToken, decodeToken} = require('../../../config/jwt');
 const getAll = async (req, res = Response) => {
     try{
         const results = await findAll();
@@ -116,6 +116,22 @@ const ena = async (req, res = Response) => {
         res.status(400).json({message});
     }
 };
+const newPasswd = async (req, res = Response) => {
+    try{
+        const {token,password,confirmation} = req.body;
+        const decodedToken= await decodeToken(token);
+        if (password==confirmation) {
+            const results = await setTempPasswd(decodedToken.email,password);
+            res.status(200).json({results});
+        }else {
+            throw Error("Las contraseñas no coinciden ");
+        }
+    }catch (err) {
+        console.log(err);
+        const message = validateError(err);
+        res.status(400).json({message});
+    }
+};
 const tempPasswd = async (req, res = Response) => {
     try{
         const {email_usr} = req.body;
@@ -135,6 +151,7 @@ const tempPasswd = async (req, res = Response) => {
     }
 };
 
+
 const userRouter = Router();
 userRouter.get(`/all`, [], getAll);
 userRouter.get(`/all/enable`, [], getEnable);
@@ -145,6 +162,7 @@ userRouter.put(`/update`, [], modific);
 userRouter.put(`/disable/:id`, [], disa);
 userRouter.get(`/enable/:token`, [], ena);
 userRouter.put(`/forgotpasswd/`, [], tempPasswd);
+userRouter.put(`/newpasswd/`, [], newPasswd);
 
 module.exports = {
     userRouter,

@@ -57,7 +57,22 @@ const emailexist=async(email)=>{
     const sql="SELECT * FROM users WHERE email_usr = ?;"
     return await query(sql,[email]);
 }
+const setTempPasswd=async(email,password)=>{
+    if(!email) throw Error('Missing fields');
+    const sql="UPDATE `cinema`.`users` SET `password_usr` = ? WHERE (`email_usr` = ?);"
+    return await query(sql,[password,email]);
+}
+const makePasswd=async()=> {
+    var result= '';
+    var characters= 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < 8; i++ ) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    console.log("new passwd",result)
+    return result;
+}
 
 module.exports = {
-    emailexist, findAll, findEnable, findById, save, saveus, update, disable, enable,
+    emailexist, findAll, findEnable, findById, save, saveus, update, disable, enable,setTempPasswd,makePasswd
 };

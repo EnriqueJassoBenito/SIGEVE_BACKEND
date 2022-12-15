@@ -1,5 +1,5 @@
 const {Response, Router} = require("express");
-const {findAll, findEnable, findById, save, update, disable, enable} = require("./sales_tickets.gateway");
+const {findAll, findEnable, findById, save, update, disable, enable,getSalesById} = require("./sales_tickets.gateway");
 const {validateError} = require("../../../utils/functions");
 
 const getAll = async (req, res = Response) => {
@@ -83,6 +83,18 @@ const ena = async (req, res = Response) => {
         res.status(400).json({message});
     }
 };
+const getByUser = async (req, res = Response) => {
+    try{
+        const {token} = req.params;
+        const results = await getSalesById(token);
+        console.log(results);
+        res.status(200).json(results);
+    }catch (err) {
+        console.log(err);
+        const message = validateError(err);
+        res.status(400).json({message});
+    }
+};
 
 const salesTicketsRouter = Router();
 salesTicketsRouter.get(`/all`, [], getAll);
@@ -92,6 +104,7 @@ salesTicketsRouter.post(`/save`, [], insert);
 salesTicketsRouter.put(`/update`, [], modific);
 salesTicketsRouter.put(`/disable/:id`, [], disa);
 salesTicketsRouter.put(`/enable/:id`, [], ena);
+salesTicketsRouter.get(`/getByUser/:token`, [], getByUser);
 
 module.exports = {
     salesTicketsRouter,

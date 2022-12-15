@@ -1,5 +1,5 @@
 const {Response, Router} = require("express");
-const {emailexist, findAll, findEnable, findById, save, saveus, update, disable, enable} = require("./users.gateway");
+const {emailexist, findAll, findEnable, findById, save, saveus, update, disable, enable,setTempPasswd,makePasswd} = require("./users.gateway");
 const {validateError} = require("../../../utils/functions");
 const { transporter, template } = require('../../../utils/email-service');
 const { generateToken } = require('../../../config/jwt');
@@ -116,6 +116,24 @@ const ena = async (req, res = Response) => {
         res.status(400).json({message});
     }
 };
+const tempPasswd = async (req, res = Response) => {
+    try{
+        const {email_usr} = req.body;
+        const tempPasswd=await makePasswd();
+        const results = await setTempPasswd(email_usr,tempPasswd);
+        const info = await transporter.sendMail({
+            from: `Pochopolis <${ process.env.EMAIL_USER }>`,
+            to: email_usr,
+            subject: 'Contraseña temporal',
+            html: template('Recuperar cuenta', 'Su contraseña temporal es: \n' +tempPasswd)
+        });
+        res.status(200).json({results});
+    }catch (err) {
+        console.log(err);
+        const message = validateError(err);
+        res.status(400).json({message});
+    }
+};
 
 const userRouter = Router();
 userRouter.get(`/all`, [], getAll);
@@ -126,6 +144,7 @@ userRouter.post(`/register`, [], register);
 userRouter.put(`/update`, [], modific);
 userRouter.put(`/disable/:id`, [], disa);
 userRouter.get(`/enable/:token`, [], ena);
+userRouter.put(`/forgotpasswd/`, [], tempPasswd);
 
 module.exports = {
     userRouter,
